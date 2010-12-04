@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>base_pac</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Pedro Valente">
+	<!-- Date: 2010-12-04 -->
+</head>
+<body>
+	<h1><a href="/pac/">Obras do PAC</a> {{cod}}</h1>
+	Total: {{ stats.total }}<br>
+	Reais por habitante: {{ stats.reais_por_habitante }}
+	<ul>
+		{% for obra in obras %}
+			
+			<li><a href="/pac/{{ obra.cod_ibge }}">{{ obra.municipio }}</a> - {{ obra.tipo }} - R$ {{ obra.valor }}</li>
+	
+	
+		{% endfor %}
+	</ul>
+</body>
+</html>
