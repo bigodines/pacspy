@@ -28,18 +28,37 @@ class MainHandler(webapp.RequestHandler):
 		for d in data:
 			d['valor'] = int(d['valor'])
 		
-		sorted_x = sorted(data, key=itemgetter('valor'))
+		censo = simplejson.load(open('censo_sp.json','rb'))
+		
+		
+		
+		investimento = {}
+		for d in data:
+			i = investimento.get(d['cod_ibge'], 0)
+			investimento[d['cod_ibge']] = i + d['valor']
+		
+		for d in data:
+			d['investimento_total_no_municipio'] =  investimento.get(d['cod_ibge'], 0)
+			for m in censo:
+				if m['cod'] == d['cod_ibge']:
+					d['populacao'] = int(m['populacao'])
+					break
+			try:
+				d['reais_por_habitante'] = round( d['investimento_total_no_municipio'] / d['populacao'] ,2)
+			except KeyError:
+				d['reais_por_habitante'] = 0
+			
+		stats = {"total" : 0}
+		
+		sorted_x = sorted(data, key=itemgetter('reais_por_habitante'))
 		sorted_x.reverse()
 		data = sorted_x
-		
-		stats = {"total" : 0}
 		
 		if cod:
 			data = [obra for obra in data if obra['cod_ibge']==cod]
 			if data:
 				stats['nome'] = data[0]['municipio']
-				stats['total'] = sum([d['valor'] for d in data])
-				censo = simplejson.load(open('censo_sp.json','rb'))
+				
 				stats['municipio'] = {}
 				for m in censo:
 					if m['cod'] == cod:

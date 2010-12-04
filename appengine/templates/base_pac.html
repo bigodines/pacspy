@@ -16,7 +16,7 @@
 	<ul>
 		{% for obra in obras %}
 			
-			<li><a href="/pac/{{ obra.cod_ibge }}">{{ obra.municipio }}</a> - {{ obra.tipo }} - R$ {{ obra.valor }}</li>
+			<li><a href="/pac/{{ obra.cod_ibge }}">{{ obra.municipio }}</a> - {{ obra.tipo }} - R$ {{ obra.valor }} - {{ obra.populacao }} habit. - {{ obra.reais_por_habitante }} R$/habit. </li>
 	
 	
 		{% endfor %}
