@@ -20,7 +20,6 @@ from google.appengine.ext.webapp import util, template
 from django.utils import simplejson 
 from operator import itemgetter
 
-
 class MainHandler(webapp.RequestHandler):
     def get(self, cod):
 	
