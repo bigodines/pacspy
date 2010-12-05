@@ -28,17 +28,6 @@ class MainHandler(webapp.RequestHandler):
 		
 		censo = simplejson.load(open('censo_sp.json','rb'))
 		
-		investimento = {}
-		for d in data:
-			i = investimento.get(d['cod_ibge'], 0)
-			investimento[d['cod_ibge']] = i + d['valor']
-		
-		for d in data:
-			d['investimento_total_no_municipio'] =  investimento.get(d['cod_ibge'], 0)
-			try:
-				d['reais_por_habitante'] = round( d['investimento_total_no_municipio'] / d['populacao'] ,2)
-			except KeyError:
-				d['reais_por_habitante'] = 0
 			
 		stats = {"total" : 0}
 		

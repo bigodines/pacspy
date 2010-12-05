@@ -28,13 +28,26 @@ class Merge(object):
 				if m['cod'] == d['cod_ibge']:
 					d['populacao'] = int(m['populacao'])
 					break
+					
+	def add_reais_por_habitante(self):
+		investimento = {}
+		for d in self.pac:
+			i = investimento.get(d['cod_ibge'], 0)
+			investimento[d['cod_ibge']] = i + d['valor']
+		
+		for d in self.pac:
+			d['investimento_total_no_municipio'] =  investimento.get(d['cod_ibge'], 0)
+			try:
+				d['reais_por_habitante'] = round( d['investimento_total_no_municipio'] / d['populacao'] ,2)
+			except KeyError:
+				d['reais_por_habitante'] = 0
 	
 	def dump(self, myjson):
 		print json.dumps(myjson, indent=4)
 
 def main():
 	m = Merge()
-	m.add_populacao()
+	m.add_reais_por_habitante()
 	m.dump(m.pac)
 	
 
