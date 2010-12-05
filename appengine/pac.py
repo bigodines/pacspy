@@ -20,6 +20,7 @@ from google.appengine.ext.webapp import util, template
 from django.utils import simplejson 
 from operator import itemgetter
 
+
 class MainHandler(webapp.RequestHandler):
     def get(self, cod):
 	
@@ -44,8 +45,6 @@ class MainHandler(webapp.RequestHandler):
 					if m['cod'] == cod:
 						stats['municipio'] = m
 						break
-				if stats['municipio']:
-					stats['reais_por_habitante'] = round(stats['total']/ float(stats['municipio']['populacao']),2)
 		
 		
 		template_values = {

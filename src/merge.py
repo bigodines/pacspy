@@ -3,11 +3,20 @@
 import csv
 import re
 import simplejson as json
+from unicodedata import normalize
+
+# DEPENDENCE: install python-yql from http://python-yql.org/ or with sudo pip install yql
+import yql
+
+def remove_acentos(txt):
+	# deixa no padrao para a tabela brazil.ibge.search do YQL
+	return txt.replace( u'Á','A' ).replace( u'É','E' ).replace( u'Í','I' ).replace( u'Ó','O' ).replace( u'Ú','U' ).replace( u'Ã','A' ).replace( u'Õ','O' ).replace( u'Â','A' ).replace( u'Ê','E' ).replace( u'Ô','O' ).replace( u"'","`" ).replace( u"Ç","C" )
 
 class Merge(object):
 	def __init__(self):
 		self.pac = json.load(open('../resources/pac_latest.json','rb'))
 		self.censo = json.load(open('../resources/censo_sp.json','rb'))
+		self.prefeitos = json.load(open('../resources/prefeitos_sp.json','rb'))
 	
 	def first_merge(self):
 		self.pac = json.load(open('../resources/normalizado.json','rb'))
@@ -42,13 +51,27 @@ class Merge(object):
 			except KeyError:
 				d['reais_por_habitante'] = 0
 	
+	def normalize_prefeitos(self):
+		
+		y = yql.Public()
+		env = "http://datatables.org/alltables.env"
+		query = "select * from brazil.ibge.search where query=@municipio and state='SP'"
+		for p in self.prefeitos[:2]:
+			
+			r = y.execute(query, env=env, params={"municipio": remove_acentos(p['municipio'])})
+			
+			print r
+			city = r.results['city']
+			print remove_acentos(p['municipio']), " >>> " ,city['name'], " >>> ", city['ibge_code']
+			
+				
 	def dump(self, myjson):
 		print json.dumps(myjson, indent=4)
 
 def main():
 	m = Merge()
-	m.add_reais_por_habitante()
-	m.dump(m.pac)
+	m.normalize_prefeitos()
+	#m.dump(m.pac)
 	
 
 if __name__ == '__main__':
