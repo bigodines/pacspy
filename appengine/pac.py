@@ -78,7 +78,7 @@ class MainHandler(webapp.RequestHandler):
 		self.response.out.write(template.render(path, template_values))
 
 def main():
-    application = webapp.WSGIApplication([('/pac/(.*?)', MainHandler)],
+    application = webapp.WSGIApplication([('/pac/?(.*?)', MainHandler)],
                                          debug=True)
     util.run_wsgi_app(application)
 
