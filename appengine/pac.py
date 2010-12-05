@@ -35,10 +35,6 @@ class MainHandler(webapp.RequestHandler):
 		
 		for d in data:
 			d['investimento_total_no_municipio'] =  investimento.get(d['cod_ibge'], 0)
-			for m in censo:
-				if m['cod'] == d['cod_ibge']:
-					d['populacao'] = int(m['populacao'])
-					break
 			try:
 				d['reais_por_habitante'] = round( d['investimento_total_no_municipio'] / d['populacao'] ,2)
 			except KeyError:

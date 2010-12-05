@@ -21,13 +21,20 @@ class Merge(object):
 		self.pac = json.load(open('../resources/pac_com_cod_ibge.json','rb'))
 		for p in self.pac:
 			p['valor'] = int(p['valor'])
+			
+	def add_populacao(self):		
+		for d in self.pac:
+			for m in self.censo:
+				if m['cod'] == d['cod_ibge']:
+					d['populacao'] = int(m['populacao'])
+					break
 	
 	def dump(self, myjson):
 		print json.dumps(myjson, indent=4)
 
 def main():
 	m = Merge()
-	m.valor_to_int()
+	m.add_populacao()
 	m.dump(m.pac)
 	
 
