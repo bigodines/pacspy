@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<title>DataTables</title>
+		<title>Obras do PAC</title>
 		<style type="text/css" title="currentStyle">
 			@import "media/css/demo_page.css";
 			@import "media/css/demo_table_jui.css";
@@ -22,28 +22,34 @@
 	<body id="dt_example">
 		<div id="container">
 			<div class="full_width big">
-				<i>DataTables</i>
+				<i>Obras do PAC</i>
 			</div>
+<div class="demo_jui">
+	Total: {{ stats.total }}<br>
+	Reais por habitante: {{ stats.reais_por_habitante }}<br>
+</div>
 			<div class="demo_jui">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
 	<thead>
 		<tr>
-			<th>Rendering engine</th>
-			<th>Browser</th>
-			<th>Platform(s)</th>
-			<th>Engine version</th>
-			<th>CSS grade</th>
+			<th>Tipo</th>
+			<th>Valor</th>
+			<th>Habitantes</th>
+			<th>R$/habit.</th>
+			<th>-</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr class="gradeX">
-			<td>Trident</td>
-			<td>Internet
-				 Explorer 4.0</td>
-			<td>Win 95+</td>
-			<td class="center">4</td>
-			<td class="center">X</td>
-		</tr>
+        {% for obra in obras %}
+            <tr class="gradeC">
+                <td>{{ obra.tipo }}</td>
+                <td>R$ {{ obra.valor }}</td>
+                <td>{{ obra.populacao }}</td>
+                <td class="center">{{ obra.reais_por_habitante }}</td>
+                <td class="center"></td>
+            </tr>
+        {% endfor %}
+<!--
 		<tr class="gradeC">
 			<td>Trident</td>
 			<td>Internet
@@ -439,6 +445,7 @@
 			<td class="center">-</td>
 			<td class="center">U</td>
 		</tr>
+-->
 	</tbody>
 </table>
 			</div>
