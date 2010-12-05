@@ -25,12 +25,8 @@ class MainHandler(webapp.RequestHandler):
     def get(self, cod):
 	
 		data = simplejson.load(open('pac_data.json','rb'))
-		for d in data:
-			d['valor'] = int(d['valor'])
 		
 		censo = simplejson.load(open('censo_sp.json','rb'))
-		
-		
 		
 		investimento = {}
 		for d in data:
