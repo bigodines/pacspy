@@ -15,14 +15,14 @@ def MainView(request):
     values = retrieveValues(cod)
     path = os.path.join(os.path.dirname(__file__), 'templates/beautiful.html')
     html = template.render(path, values)
-    return HttpResponse(html) ## or
+    return HttpResponse(html)
 
 def PacView(request):
     cod = request.GET.get('cod', '')
     values = retrieveValues(cod)
     path = os.path.join(os.path.dirname(__file__), 'templates/base_pac.html')
     html = template.render(path, values)
-    return HttpResponse(html) ## or
+    return HttpResponse(html)
 
 def retrieveValues(cod):
     data = simplejson.load(open('pac_data.json','rb'))
@@ -52,7 +52,20 @@ def retrieveValues(cod):
     sorted_x = sorted(data, key=itemgetter('reais_por_habitante'))
     sorted_x.reverse()
     data = sorted_x
-    
+
+    if cod:
+        data = [obra for obra in data if obra['cod_ibge']==cod]
+        if data:
+            stats['nome'] = data[0]['municipio']
+            
+            stats['municipio'] = {}
+            for m in censo:
+                if m['cod'] == cod:
+                    stats['municipio'] = m
+                    break
+            if stats['municipio']:
+                stats['reais_por_habitante'] = round(stats['total']/ float(stats['municipio']['populacao']),2)
+
     template_values = {
         "obras": data,
         "cod": cod,
