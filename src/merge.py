@@ -52,7 +52,7 @@ class Merge(object):
 				d['reais_por_habitante'] = 0
 	
 	def normalize_prefeitos(self):
-		
+		#IN PROGRESS, NOT WORKING
 		y = yql.Public()
 		env = "http://datatables.org/alltables.env"
 		query = "select * from brazil.ibge.search where query=@municipio and state='SP'"
